@@ -1,0 +1,51 @@
+﻿||||||||||||||||||||||||||||||||||||||||||||||||||
+|||||||||||   COL 380 : Lab Report 3    ||||||||||
+|||  Submitted by : Aditi Singla (2014CS50277) |||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+
+1. Parallelisation  Strategy :
+
+[a] Initially, the given file is just read by the process 0 and the relevant array fractions are then sent to different processes, after which each process has its own local vector. This distributes the given array equally (almost, when not a power of 2, last process gets the extra elements) amongst the various processes.
+[b]	In the middle of the algorithm, the size of vectors may change when half the arrays are received and sent to the other processes.
+[c]	This implementation might perform poorly in cases where after a split, few of the vectors might have large number of elements.
+
+
+2. Design Decisions : 
+
+[a]	Vectors have been used instead of int[] as the size of the vector can be easily changed and helps easy merging of the two vectors at every iteration in every process.
+[b]	For convenience, we have only declared vectors once per process and clear it in every iteration so that system calls are minimised.
+[c]	As much as possibile, minimal copies of the data were created to improve memory performance
+[d]	The extra copies have been cleared at every step.
+[e]	Different tags have been used to match matching calls, to avoid bugs in the code.
+[f]	The implementation is in C++11, a decent trade-off between code efficiency and coding efficiency
+
+
+3. Load Balancing Strategy : 
+
+[a] We distribute the original array equally amongst the various threads. The last process may have slightly more data depending on divisibility of input size
+[b]	Splitting the vector about the median of the process 0 subarray, after sorting, maximises the log likelihood that the split in the array will almost equal amongst all the processes
+[c]	However, due to its probabilistic nature, the algorithm is likely to perform poorly in cases like after a split, few of the subarrays may have huge number of elements and some others may have less
+
+4. Results :
+
+	Job Size vs Time
+		2^16  :	0.0082 secs
+		2^18  :	0.035 secs
+		2^20  :	0.145 secs
+		2^22  :	0.63  secs
+		2^24  :	2.68  secs
+		2^26  :	11.51 secs
+
+	Number of processes vs time
+		1 Processes	 :	38.94 secs
+		2 Processes	 :	21.09 secs
+		4 Processes	 :	11.51 secs
+		8 Processes	 :	6.28 secs
+		16 Processes :	3.52 secs
+		32 Processes :	3.42 secs
+
+
+5. Compilation & Execution:
+
+	mpic++ -o hypersort_2014CS50277 hypersort_2014CS50277.cpp
+	mpirun -np <Number of Processes> ./hypersort_2014CS50277 <Input file name>  <Output file name>
