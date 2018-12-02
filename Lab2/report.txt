@@ -1,0 +1,33 @@
+﻿COL 380 : Lab Report 1
+Submitted by Aditi Singla (2014CS50277)
+
+1. Parallel Algorithm :
+
+	The algorithm has been used using PMX and GX crossover strategies. Initially, a population of n size has been initialised. Now, it is sorted and from the first m chromosomes, randomly 2 parents are selected and 2 children are produced one by PMX and one by GX. This is continued to make a complete population of size n. And now the complete algorithm is repeated for a given number of iterations.
+
+2. Design Decisions : 
+
+	Initial Population Size, n = 3000
+	Number of fittest parents, m = 1000
+	Number of iterations (generations produced) = 1000 
+
+3. Parallelisation Strategy :
+
+	The outermost loop has been parallelised to reduce inter-thread dependencies. Each thread has a copy of initial population and the above algorithm is then run on each thread. And a global variable is maintained, which is kept under critical section.
+
+4. Load Balancing Strategy : 
+
+	Scheduling of threads is dynamic, so each thread gets almost similar workload. The number of iterations on each thread is dynamically balanced.
+
+5. Results :
+
+	1 Thread 	:	12.3874 secs
+	2 Threads	:	9.04693	secs
+	4 Threads	:	7.55787	secs
+	8 Threads	:	7.72795	secs
+	16 Threads	:	7.96021	secs
+	32 Threads	:	8.67851	secs
+
+6. Compilation :
+
+	g++ -fopenmp -std=c++11 -O3 -o tsp_2014CS50277 tsp_2014CS50277.cpp
