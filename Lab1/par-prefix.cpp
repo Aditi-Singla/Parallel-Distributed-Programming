@@ -1,11 +1,11 @@
-#include <iostream>
+#include <omp.h> 
+#include <vector>
+#include <math.h>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h> 
-#include <math.h>
+#include <iostream>
 #include <pthread.h>
-#include <vector>
-#include <fstream>
 #include <openssl/md5.h>
 
 using namespace std;
@@ -21,9 +21,9 @@ int nThreads;
 
 //// INPUT OUTPUT SECTION
 
-void input(){
+void input(char filename[]){
 	ifstream in;
-	in.open("input.txt");
+	in.open(filename);
 	if (!in.is_open()){
 		printf("File not found.\n");
 	}
@@ -37,8 +37,8 @@ void input(){
 	}
 }
 
-void output(vector<unsigned long> ans, double time){
-	ofstream out("output1.txt", ios::out);
+void output(char filename[], vector<unsigned long> ans){
+	ofstream out(filename, ios::out);
 	for (int j=1; j<n; j++){
 		out << ans[j] << " ";
 	}
@@ -47,7 +47,7 @@ void output(vector<unsigned long> ans, double time){
 
 	////// Code for MD5 taken from Stack Overflow  ////////////////
 
-	FILE* outptr = fopen("output1.txt","r");
+	FILE* outptr = fopen(filename,"r");
 	unsigned char c[MD5_DIGEST_LENGTH];
 	int bytes;
     unsigned char data[1024];
@@ -59,16 +59,12 @@ void output(vector<unsigned long> ans, double time){
 
 	///////////////////////////////////////////////////////////////
 
-	ofstream out1("output.txt", ios::out);
-	out1 << "Threads: " << num_threads << endl;
-	out1 << "Time: " << time << endl;
-	out1 << "Md5-sum: ";
-	out1.close();
-	FILE* outptr1 = fopen("output.txt","a");
+	cout << "Threads: " << num_threads << endl;
+	cout << "Md5-sum: ";
 	for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-		fprintf(outptr1, "%02x", c[i]);
+		printf("%02x", c[i]);
 	}
-	fprintf(outptr1, "\n");
+	cout << "\n";
 }
 
 //// ALGORITHM FUNCTIONS
@@ -111,15 +107,17 @@ void *downSweep(void* pthreadargs)
 //// MAIN FUNCTION
 
 int main(int argc, char * argv[]){
-	if (argc >= 2){
-		num_threads = pow(2,(int)(log2(atoi(argv[1]))));
+	if (argc >= 3){
+		num_threads = pow(2,(int)(log2(atoi(argv[3]))));
 	}
 	else
 		num_threads = 8;
 
+	char* infile = argv[1];
+	char* outfile = argv[2];
 	// double start = omp_get_wtime();
 	
-	input();
+	input(infile);
 
 	double end1 = omp_get_wtime();
 	// cout << "Time taken to read: " << (end1 - start) << endl;
@@ -184,7 +182,7 @@ int main(int argc, char * argv[]){
 	double end = omp_get_wtime();
 	cout << "Time taken to calculate: " << (end - end1) << endl;
 	
-	output(arr, (end-end1));
+	output(outfile, arr);
 	// double end2 = omp_get_wtime();
 	// cout << "Time taken to print : " << (end2 - end) << endl;
 
