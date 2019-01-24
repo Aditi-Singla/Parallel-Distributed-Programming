@@ -50,12 +50,12 @@ void output(char filename[], vector<unsigned long> ans, double time){
 	FILE* outptr = fopen(filename,"r");
 	unsigned char c[MD5_DIGEST_LENGTH];
 	int bytes;
-    unsigned char data[1024];
+	unsigned char data[1024];
 	MD5_CTX mdContext;
 	MD5_Init (&mdContext);
-    while ((bytes = fread (data, 1, 1024, outptr)) != 0)
-        MD5_Update (&mdContext, data, bytes);
-    MD5_Final (c,&mdContext);
+	while ((bytes = fread (data, 1, 1024, outptr)) != 0)
+		MD5_Update (&mdContext, data, bytes);
+	MD5_Final (c,&mdContext);
 
 	///////////////////////////////////////////////////////////////
 
@@ -75,8 +75,7 @@ struct pthreadArgs{
 	int level;	///starting from 0 to logn-1
 };
 
-void *upSweep(void* pthreadargs)
-{
+void *upSweep(void* pthreadargs){
 	struct pthreadArgs *data = (struct pthreadArgs*)pthreadargs;
 	int n0 = nThreads;
 	int id0 = data->threadId;
@@ -89,8 +88,7 @@ void *upSweep(void* pthreadargs)
 	pthread_exit(NULL);
 }	
 
-void *downSweep(void* pthreadargs)
-{
+void *downSweep(void* pthreadargs){
 	struct pthreadArgs *data = (struct pthreadArgs*)pthreadargs;
 	int n0 = nThreads;
 	int id0 = data->threadId;
