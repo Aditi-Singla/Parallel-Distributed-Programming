@@ -37,7 +37,7 @@ void input(char filename[]){
 	}
 }
 
-void output(char filename[], vector<unsigned long> ans){
+void output(char filename[], vector<unsigned long> ans, double time){
 	ofstream out(filename, ios::out);
 	for (int j=1; j<n; j++){
 		out << ans[j] << " ";
@@ -60,6 +60,7 @@ void output(char filename[], vector<unsigned long> ans){
 	///////////////////////////////////////////////////////////////
 
 	cout << "Threads: " << num_threads << endl;
+	cout << "Time: " << time << endl;
 	cout << "Md5-sum: ";
 	for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
 		printf("%02x", c[i]);
@@ -180,9 +181,8 @@ int main(int argc, char * argv[]){
 	}
 
 	double end = omp_get_wtime();
-	cout << "Time taken to calculate: " << (end - end1) << endl;
 	
-	output(outfile, arr);
+	output(outfile, arr, (end-end1));
 	// double end2 = omp_get_wtime();
 	// cout << "Time taken to print : " << (end2 - end) << endl;
 
