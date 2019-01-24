@@ -3,7 +3,7 @@
 if [ -f par ]; then
 	if [ "$#" == 2 ]; then
         ./par "$1" "$2"
-    elif [ "$#" == 4 ] && [ "$3" == "-numThreads" ]; then
+    elif [ "$#" == 4 ] && [ "$3" == "--numThreads" ]; then
         ./par "$1" "$2" "$4"
     else
         echo "Illegal number of parameters ($#)"

@@ -106,7 +106,7 @@ void *downSweep(void* pthreadargs){
 //// MAIN FUNCTION
 
 int main(int argc, char * argv[]){
-	if (argc >= 3){
+	if (argc >= 4){
 		num_threads = pow(2,(int)(log2(atoi(argv[3]))));
 	}
 	else

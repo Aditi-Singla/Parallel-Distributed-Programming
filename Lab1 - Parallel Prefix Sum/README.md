@@ -37,6 +37,6 @@ This assignment involves implementation of a prefix-sum algorithm using Pthreads
 2. To run - 
 
     ```bash
-    ./scripts/run.sh <input-file> <output-file> -numThreads  <number of threads>
+    ./scripts/run.sh <input-file> <output-file> --numThreads  <number of threads>
     ```
     Note: Number of threads is an optional argument, default being 8. It is rounded down to the nearest power of 2.
