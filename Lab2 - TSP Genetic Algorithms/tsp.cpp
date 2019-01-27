@@ -46,19 +46,18 @@ int getInt(char c){
 }
 
 // Take the input from the file and fill the above data structures.
-string input(char filename[]){
+void input(char filename[]){
 	string line;
 	ifstream in;
 	in.open(filename);
 	if (!in.is_open()){
 		cout << "File not found.\n";
-		return "";
+		return;
 	}
 	else{
-		string output_str = "";
-		in >> output_str;
-		in >> output_str;
-		output_str = "output_" + output_str + ".txt";
+		string input_str = "";
+		in >> input_str;
+		in >> input_str;
 		
 		string str = "";
 		in >> str;
@@ -76,7 +75,7 @@ string input(char filename[]){
 			idToYcord[i] = d;
 			initChromosome += getChar(i);
 		}
-		return output_str;
+		return;
 	}
 }
 
@@ -228,7 +227,7 @@ void performMutation(string &c1){
 void solve(int numThreads){
 	vector<string> initPopl = generateInitialPopulation();
 	#pragma omp parallel for firstprivate(initPopl) num_threads(numThreads)
-		for (int i = 0; i < 5000; i++){
+		for (int i = 0; i < 1000; i++){
 			// cout << "iteration : " << i << endl;
 			
 			// Obtains the localMin of the current population and update the global minima
@@ -270,8 +269,7 @@ void output(string filename, float cost, string path){
 	ofstream out(filename, ios::out);
 	out << "DIMENSION : " << numCities << endl;
 	out << "TOUR_LENGTH : " << to_string(cost) << endl;
-	out << "TOUR_SECTION\n";
-	out << path << endl;
+	out << "TOUR_SECTION : " << path << endl;
 	out << "-1\nEOF";
 }	
 
@@ -282,13 +280,14 @@ int main(int argc, char * argv[])
 {
 	// Read the command line arguments, filename and the number of threads
 	char* infile = argv[1];
-	int numThreads = atoi(argv[2]);
+	char* outfile = argv[2];
+	int numThreads = atoi(argv[3]);
 	
 	// Seed
 	srand(time(NULL));
 	
-	// Obtain the output file name from input(), which reads in the whole data
-	string outFileName = input(infile);
+	// Call input(), which reads in the whole data
+	input(infile);
 
 	// Fill the distance matrix
 	fillDistances();
@@ -299,15 +298,15 @@ int main(int argc, char * argv[])
 	
 	// Print the smallest path and the path length
 	cout << "Time taken : " << omp_get_wtime() - start << " s" << endl;
-	cout << "cost: " << minCycle.first << endl;
+	cout << "Cost: " << minCycle.first << endl;
 	string str = "";
-	for (int i=0; i<(minCycle.second).size(); i++){
+	for (int i=0; i < (minCycle.second).size(); i++){
 		str += idToname[getInt(minCycle.second[i])];
 		str += " ";
 	}
 	cout << "Path : " << str << endl;
 	
 	// Write the output into the file
-	output(outFileName,minCycle.first,str);
+	output(outfile, minCycle.first, str);
 	return 0;
 }
