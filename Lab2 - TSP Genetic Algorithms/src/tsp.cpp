@@ -19,6 +19,7 @@ float** distTable;
 // Initialise the population size and the top fittest parents to be chosen
 int n_popl = 3000;
 int m_popl = 1000;
+int num_iter = 1000;
 
 // Declare global variables like numCities, initialChromosome(One of the permutations) & the global minimum of the cycle path
 int numCities;
@@ -223,11 +224,11 @@ void performMutation(string &c1){
 	}
 }
 
-// The main function containing the main loop, with 1000 number of iterations
+// The main function containing the main loop, with <num_iter> number of iterations
 void solve(int numThreads){
 	vector<string> initPopl = generateInitialPopulation();
 	#pragma omp parallel for firstprivate(initPopl) num_threads(numThreads)
-		for (int i = 0; i < 1000; i++){
+		for (int i = 0; i < num_iter; i++){
 			// cout << "iteration : " << i << endl;
 			
 			// Obtains the localMin of the current population and update the global minima
