@@ -3,6 +3,22 @@
 This assignment involves implementation of a parallel (OpenMP) solution to the NP-Hard problem of traveling salesman (TSP)
 using genetic algorithms (GA). Statement for the same is linked [here](./Statement.pdf).
 
+
+#### Running the code
+
+1. To compile -
+
+    ```bash
+    ./scripts/compile.sh
+    ```
+
+2. To run - 
+
+    ```bash
+    ./scripts/run.sh <input-file> <output-file> --numThreads  <number of threads>
+    ```
+    
+
 #### Code Description
 
 1. **Parallel Algorithm :**
@@ -33,18 +49,3 @@ using genetic algorithms (GA). Statement for the same is linked [here](./Stateme
 |      8      |   7.72795 s   |
 |      16     |   7.96021 s   |
 |      32     |   8.67851 s   |
-
-
-#### Running the code
-
-1. To compile -
-
-    ```bash
-    ./scripts/compile.sh
-    ```
-
-2. To run - 
-
-    ```bash
-    ./scripts/run.sh <input-file> <output-file> --numThreads  <number of threads>
-    ```

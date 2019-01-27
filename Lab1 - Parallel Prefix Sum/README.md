@@ -2,6 +2,23 @@
 
 This assignment involves implementation of a prefix-sum algorithm using Pthreads. Statement for the same is linked [here](./Statement.pdf).
 
+
+#### Running the code
+
+1. To compile -
+
+    ```bash
+    ./scripts/compile.sh
+    ```
+
+2. To run - 
+
+    ```bash
+    ./scripts/run.sh <input-file> <output-file> --numThreads  <number of threads>
+    ```
+    Note: Number of threads is an optional argument, default being 8. It is rounded down to the nearest power of 2.
+    
+
 #### Code Description
 
 1. **I/O :**
@@ -24,19 +41,3 @@ This assignment involves implementation of a prefix-sum algorithm using Pthreads
 5. **Data Structures :**
 
     The array of all the elements is stored as a vector, while the threads and thread arguments are stored in arrays.
-
-
-#### Running the code
-
-1. To compile -
-
-    ```bash
-    ./scripts/compile.sh
-    ```
-
-2. To run - 
-
-    ```bash
-    ./scripts/run.sh <input-file> <output-file> --numThreads  <number of threads>
-    ```
-    Note: Number of threads is an optional argument, default being 8. It is rounded down to the nearest power of 2.
