@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 	long pown = (long)pow(2,n);
 	ofstream file;
 	string filename;
-	filename += "input";
+	filename += "input_2power";
 	filename += argv[1];
 	filename += ".txt";
 	file.open(filename);
