@@ -1,11 +1,11 @@
-#include <iostream>
-#include <fstream>
-#include <math.h>
-#include <algorithm>
-#include <vector>
 #include <mpi.h>
-#include <stdio.h>
+#include <math.h>
+#include <vector>
 #include <cassert>
+#include <fstream>
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
 int maxSize;
@@ -221,5 +221,9 @@ void hypersort(char filename1[], char filename[]){
 }
 
 int main(int argc, char** argv){
-	hypersort(argv[1], argv[2]);
+
+	char* infile = argv[1];
+	char* outfile = argv[2];
+	
+	hypersort(infile, outfile);
 }
