@@ -37,12 +37,8 @@ This assignment involves implementation of a parallel version of the well know Q
 2. **Design Decisions :** 
 
     - Vectors have been used instead of int[] as the size of the vector can be easily changed and helps easy merging of the two vectors at every iteration in every process
-    - For convenience, we have only declared vectors once per process and clear it in every iteration so that system calls are minimised
-    - As much as possibile, minimal copies of the data were created to improve memory performance
-    - The extra copies have been cleared at every step
-    - Different tags have been used to match matching calls, to avoid bugs in the code
-    - The implementation is in C++11, a decent trade-off between code efficiency and coding efficiency
-
+    - For convenience, we have declared vectors only once per process and we clear it in every iteration so that system calls are minimised
+    - As much as possibile, minimal copies of the data are created to improve memory performance
 
 3. **Load Balancing Strategy :** 
 
@@ -54,26 +50,36 @@ This assignment involves implementation of a parallel version of the well know Q
 
     Job Size vs Time
 
-    |  Job Size   |      Time     |
-    | ----------- | ------------- |
-    |    2^16     |    0.0082 s   |
-    |    2^18     |     0.035 s   |
-    |    2^20     |     0.145 s   |
-    |    2^22     |      0.63 s   |
-    |    2^24     |      2.68 s   |
-    |    2^26     |     11.51 s   |
-
-    ![](plots/jobSizeVStime.png)
+    ![](plots/jobvstime.png)
 
     Number of processes vs Time
 
-    |  Processes  |      Time     |
-    | ----------- | ------------- |
-    |      1      |     38.94 s   |
-    |      2      |     21.09 s   |
-    |      4      |     11.51 s   |
-    |      8      |      6.28 s   |
-    |     16      |      3.52 s   |
-    |     32      |      3.42 s   |
+    ![](./plots/procvstime.png)
 
-    ![](plots/numProcsVStime.png)
+
+<!-- 
+
+| Job Size | Time     |
+| -------- | -------- |
+| 2^16     | 0.0082 s |
+| 2^18     | 0.035 s  |
+| 2^20     | 0.145 s  |
+| 2^22     | 0.63 s   |
+| 2^24     | 2.68 s   |
+| 2^26     | 11.51 s  |
+
+![](plots/jobSizeVStime.png)
+
+
+| Processes | Time    |
+| --------- | ------- |
+| 1         | 38.94 s |
+| 2         | 21.09 s |
+| 4         | 11.51 s |
+| 8         | 6.28 s  |
+| 16        | 3.52 s  |
+| 32        | 3.42 s  |
+
+![](plots/numProcsVStime.png)
+
+ -->
