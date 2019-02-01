@@ -4,7 +4,6 @@
 #include <mpi.h>
 #include <climits>
 #include <stdio.h>
-#include <cuda.h>
 #include <string>
 #include <algorithm>
 using namespace std;
@@ -66,13 +65,12 @@ void input(char filename[], vector<int> &row, vector<int> &col, vector<int> &dat
 __global__ void spmv_csr_scalar_kernel(const int num_rows, const int *ptr, const int *indices, const int *data, const int *x, int *y){
 	int row = blockDim.x * blockIdx.x + threadIdx.x;
 	if (row < num_rows){
-		y[row] = 5;
-		// float dot = 0;
-		// int row_start = ptr [ row ];
-		// int row_end = ptr [ row +1];
-		// for (int j = row_start; j < row_end; j++)
-		// 	dot += data[j]*x[indices[j]];
-		// y[row] += dot ;
+		float dot = 0;
+		int row_start = ptr [ row ];
+		int row_end = ptr [ row +1];
+		for (int j = row_start; j < row_end; j++)
+			dot += data[j]*x[indices[j]];
+		y[row] += dot ;
 	}
 }
 
@@ -160,7 +158,6 @@ void sparseMatMul(char filename1[], char filename[]){
 	int* data = (int*)malloc(indicesize*sizeof(int));
 	int* x = (int*)malloc(dimension*sizeof(int));
 	int* y = (int*)malloc((ptrsize-1)*sizeof(int));
-	memset(y,0,(ptrsize-1)*sizeof(int));
 
 	int init = rBegin-1;
 	int count = 0;
@@ -210,9 +207,8 @@ void sparseMatMul(char filename1[], char filename[]){
 	cudaMemcpy(cindices,indices,indicesize*sizeof(int),cudaMemcpyHostToDevice);
 	cudaMemcpy(cdata,data,indicesize*sizeof(int),cudaMemcpyHostToDevice);
 	cudaMemcpy(cx,x,dimension*sizeof(int),cudaMemcpyHostToDevice);
-	cudaMemcpy(cy,y,(ptrsize-1)*sizeof(int),cudaMemcpyHostToDevice);
 	
-	// cudaMemset(cy,0,(ptrsize-1)*sizeof(int));
+	cudaMemset(cy,0,(ptrsize-1)*sizeof(int));
 
 	spmv_csr_scalar_kernel<<<totalBlocks, threadsPerBlock>>>(ptrsize-1,cptr,cindices,cdata,cx,cy);
 
@@ -224,7 +220,6 @@ void sparseMatMul(char filename1[], char filename[]){
 		for (int i = 0; i < ptrsize-1; i++){
 			cout << y[i] << " ";
 		}
-
 	if (procNum != 0){
 		MPI_Send(&rBegin, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
 		MPI_Send(&rEnd, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
