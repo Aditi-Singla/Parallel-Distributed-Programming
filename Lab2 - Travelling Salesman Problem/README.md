@@ -27,9 +27,9 @@ using genetic algorithms (GA). Statement for the same is linked [here](./Stateme
 
 2. **Design Decisions :** 
 
-    Initial Population Size, n = 3000
-    Number of fittest parents, m = 1000
-    Number of iterations (generations produced) = 1000 
+    - Initial Population Size, n = 3000
+    - Number of fittest parents, m = 1000
+    - Number of iterations (generations produced) = 1000 
 
 3. **Parallelisation Strategy :**
 
